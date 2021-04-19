@@ -27,8 +27,11 @@ const path = require("path");
     app.get("/*", function (req, res) {
       res.sendFile(path.join(__dirname, "../build", "index.html"));
     });
+    console.log("Serving index.html");
   }
 
-  await new Promise((resolve) => app.listen({ port: 4000 }, resolve));
+  await new Promise((resolve) =>
+    app.listen({ port: process.env.PORT || 4000 }, resolve)
+  );
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 })();

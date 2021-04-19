@@ -1,37 +1,34 @@
-const { ApolloServer, gql } = require('apollo-server');
-const { resolvers } = require('./resolvers/test');
-// Suh dude
+const express = require("express");
+const { ApolloServer, gql } = require("apollo-server-express");
+const { resolvers } = require("./resolvers/test");
+const path = require("path");
 
-const books = [
-  {
-    title: 'The Awakening',
-    author: 'Kate Chopin',
-  },
-  {
-    title: 'City of Glass',
-    author: 'Paul Auster',
-  },
-];
+(async function startApolloServer() {
+  const typeDefs = gql`
+    type Book {
+      title: String
+      author: String
+    }
 
-const typeDefs = gql`
-  type Book {
-    title: String
-    author: String
+    type Query {
+      books: [Book]
+    }
+  `;
+
+  const server = new ApolloServer({ typeDefs, resolvers });
+  await server.start();
+
+  const app = express();
+
+  server.applyMiddleware({ app });
+
+  if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "../build")));
+    app.get("/*", function (req, res) {
+      res.sendFile(path.join(__dirname, "../build", "index.html"));
+    });
   }
 
-  type Query {
-    books: [Book]
-  }
-`;
-
-// const resolvers = {
-//   Query: {
-//     books: () => books,
-//   },
-// };
-
-const server = new ApolloServer({ typeDefs, resolvers })
-
-server.listen().then(({ url }) => {
-  console.log('server started at: ', url);
-});
+  await new Promise((resolve) => app.listen({ port: 4000 }, resolve));
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+})();

@@ -1,5 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import SignIn from './routes/SignIn';
+
 
 const BOOK_QUERY = gql`
   query GetBooks {
@@ -21,7 +23,7 @@ function App() {
             register page
           </Route>
           <Route path="/signin">
-            sign in page
+            <SignIn />
           </Route>
         </Switch>
       </Router>

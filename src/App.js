@@ -1,6 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Register from "./routes/Register";
 import SignIn from './routes/SignIn';
+
 
 
 const BOOK_QUERY = gql`
@@ -20,7 +22,7 @@ function App() {
         
         <Switch>
           <Route path="/register">
-            register page
+            <Register />
           </Route>
           <Route path="/signin">
             <SignIn />

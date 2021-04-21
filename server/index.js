@@ -1,21 +1,17 @@
 const express = require("express");
-const { ApolloServer, gql } = require("apollo-server-express");
-const { resolvers } = require("./resolvers/test");
+const { ApolloServer } = require("apollo-server-express");
+const resolvers = require("./resolvers");
 const path = require("path");
+const { addResolversToSchema } = require("@graphql-tools/schema");
+const schema = require("./schema");
 
 (async function startApolloServer() {
-  const typeDefs = gql`
-    type Book {
-      title: String
-      author: String
-    }
+  const schemaWithResolvers = addResolversToSchema({
+    schema: await schema,
+    resolvers,
+  });
 
-    type Query {
-      books: [Book]
-    }
-  `;
-
-  const server = new ApolloServer({ typeDefs, resolvers });
+  const server = new ApolloServer({ schema: schemaWithResolvers });
   await server.start();
 
   const app = express();

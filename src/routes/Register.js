@@ -9,7 +9,24 @@ import {
   Card,
 } from "@material-ui/core";
 import { formStyles } from "../formStyles";
-import { registerValidationSchema } from "../util/validators.js";
+import * as yup from "yup";
+
+const registerValidationSchema = yup.object({
+  name: yup.string().required("required"),
+  email: yup.string().email("Enter a valid email").required("required"),
+  confirmEmail: yup
+    .string()
+    .required("required")
+    .oneOf([yup.ref("email")], "Emails must match"),
+  password: yup
+    .string()
+    .min(8, "Password should be of minimum 8 characters length")
+    .required("required"),
+  confirmPassword: yup
+    .string()
+    .required("required")
+    .oneOf([yup.ref("password")], "Passwords must match"),
+});
 
 export const Register = () => {
   const formik = useFormik({

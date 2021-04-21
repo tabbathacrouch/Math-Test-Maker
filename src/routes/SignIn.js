@@ -10,7 +10,16 @@ import {
   Grid,
 } from "@material-ui/core";
 import { formStyles } from "../formStyles";
-import { signInValidationSchema } from "../util/validators.js";
+import * as yup from "yup";
+
+const signInValidationSchema = yup.object({
+  email: yup.string().email("Enter a valid email").required("required"),
+  password: yup
+    .string()
+    .min(8, "Password should be of minimum 8 characters length")
+    .required("required"),
+});
+
 
 export const SignIn = () => {
   const formik = useFormik({

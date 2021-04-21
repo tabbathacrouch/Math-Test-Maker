@@ -8,10 +8,10 @@ import {
   Link,
   Card,
 } from "@material-ui/core";
-import { formStyles } from '../FormStyles';
-import { registerValidationSchema } from '../FormValidation';
+import { formStyles } from "../formStyles";
+import { registerValidationSchema } from "../util/validators.js";
 
-const Register = () => {
+export const Register = () => {
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -21,7 +21,7 @@ const Register = () => {
       confirmPassword: "",
     },
     validationSchema: registerValidationSchema,
-    onSubmit: (values) => {
+    onSubmit: values => {
       // update next line to add values to database
       console.log(values);
     },
@@ -117,5 +117,3 @@ const Register = () => {
     </div>
   );
 };
-
-export default Register;

@@ -1,7 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Register from "./routes/Register";
-import SignIn from './routes/SignIn';
+import { Register, SignIn } from './routes';
 
 
 

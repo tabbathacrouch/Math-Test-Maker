@@ -9,17 +9,17 @@ import {
   Card,
   Grid,
 } from "@material-ui/core";
-import { formStyles } from "../FormStyles";
-import { signInValidationSchema } from "../FormValidation";
+import { formStyles } from "../formStyles";
+import { signInValidationSchema } from "../util/validators.js";
 
-const SignIn = () => {
+export const SignIn = () => {
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
     validationSchema: signInValidationSchema,
-    onSubmit: (values) => {
+    onSubmit: values => {
       // update next line to check login credentials against database
       console.log(values);
     },
@@ -82,5 +82,3 @@ const SignIn = () => {
     </div>
   );
 };
-
-export default SignIn;

@@ -9,7 +9,7 @@ import {
   Card,
   Grid,
 } from "@material-ui/core";
-import { formStyles } from "../formStyles";
+import { formStyles } from "./formStyles";
 import * as yup from "yup";
 
 const signInValidationSchema = yup.object({

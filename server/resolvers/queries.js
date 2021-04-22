@@ -1,4 +1,4 @@
-const books = [
+const books = [ // TODO: delete me plz
   {
     title: "The Awakening",
     author: "Kate Chopin",
@@ -13,10 +13,7 @@ const books = [
   },
 ];
 
-const resolvers = {
-  Query: {
-    books: () => books,
-  },
+module.exports = {
+  // TODO: delete me as soon as we have a real query
+  books: () => books,
 };
-
-module.exports = { resolvers };

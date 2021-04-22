@@ -1,0 +1,5 @@
+# Common types shared between schemas should go here
+
+type SuccessResponse {
+  success: Boolean
+}

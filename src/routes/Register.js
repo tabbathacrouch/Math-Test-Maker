@@ -8,7 +8,7 @@ import {
   Link,
   Card,
 } from "@material-ui/core";
-import { formStyles } from "../FormStyles";
+import { formStyles } from "../formStyles";
 import * as yup from "yup";
 
 const registerValidationSchema = yup.object({

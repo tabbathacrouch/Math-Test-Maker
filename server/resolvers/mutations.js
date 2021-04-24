@@ -9,4 +9,7 @@ module.exports = {
     // Successful if no errors
     return { success };
   },
+  login: (_, args, { user }) => {
+    // add logic for loging a user in here
+  }
 };

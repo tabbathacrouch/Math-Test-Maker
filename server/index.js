@@ -13,7 +13,14 @@ const schema = require("./schema");
     resolvers,
   });
 
-  const server = new ApolloServer({ schema: schemaWithResolvers });
+  const server = new ApolloServer({
+    schema: schemaWithResolvers,
+    context: ({ req }) => {
+      const user = req.user || null;
+
+      return { user };
+    }
+  });
   await server.start();
 
   const app = express();

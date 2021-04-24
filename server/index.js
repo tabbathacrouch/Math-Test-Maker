@@ -1,8 +1,10 @@
 const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
+const { addResolversToSchema } = require("@graphql-tools/schema");
+const expressJwt = require("express-jwt");
+
 const resolvers = require("./resolvers");
 const path = require("path");
-const { addResolversToSchema } = require("@graphql-tools/schema");
 const schema = require("./schema");
 
 (async function startApolloServer() {
@@ -15,6 +17,14 @@ const schema = require("./schema");
   await server.start();
 
   const app = express();
+
+  app.use(
+    expressJwt({
+      secret: 'asdlkfjasdfajsdfuw', //TODO: add this as a env var
+      algorithms: ['HS256'],
+      credentialsRequired: false
+    })
+  );
 
   server.applyMiddleware({ app });
 

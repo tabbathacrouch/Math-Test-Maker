@@ -1,5 +1,7 @@
-const user = require("../dao/user");
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken')
+
+const user = require("../dao/user");
 
 module.exports = {
   createUser: async (_, args) => {

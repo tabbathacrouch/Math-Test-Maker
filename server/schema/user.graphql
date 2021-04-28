@@ -1,5 +1,6 @@
 type Query {
   books: [Book]
+  user(id: ID!): User
 }
 
 type Mutation {
@@ -8,6 +9,14 @@ type Mutation {
   loginUser(username: String!, password: String!): String
 }
 
+type User {
+  id: ID!
+  name: String!
+  email: String
+  password: String
+}
+
+# TODO: delete this type laterz
 type Book {
   title: String
   author: String

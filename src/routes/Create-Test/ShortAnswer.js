@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
 import EditIcon from "@material-ui/icons/Edit";
+import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
 import { formStyles } from "../formStyles";
 import * as yup from "yup";
 
@@ -16,7 +17,7 @@ const signInValidationSchema = yup.object({
   question: yup.string().required("required"),
 });
 
-export const ShortAnswer = () => {
+export const ShortAnswer = ({ testInfo, setTestInfo, index }) => {
   const formik = useFormik({
     initialValues: {
       question: "",
@@ -24,17 +25,45 @@ export const ShortAnswer = () => {
     },
     validationSchema: signInValidationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      let newArray = [...testInfo.questions];
+      newArray[index] = {
+        ...newArray[index],
+        questionInfo: values,
+      };
+      setTestInfo({
+        ...testInfo,
+        questions: newArray,
+      });
     },
   });
   const classes = formStyles();
+  const handleChangeQuestionTypeButton = () => {
+    let newArray = [...testInfo.questions];
+    newArray[index] = {
+      ...newArray[index],
+      displayQuestionTypeSelector: true,
+      questionType: "",
+      questionInfo: "",
+    };
+    setTestInfo({
+      ...testInfo,
+      questions: newArray,
+    });
+  };
+
   return (
     <div>
       <Container maxWidth="md">
         <Card className={classes.card}>
-          <Typography component="h1" variant="h5">
-            Short Answer
-          </Typography>
+          <div className={classes.textAndButton}>
+            <Typography component="h1" variant="h5">
+              Short Answer
+            </Typography>
+            <Button onClick={handleChangeQuestionTypeButton}>
+              Change question type
+              <ChangeHistoryIcon className={classes.icon} />
+            </Button>
+          </div>
           <div style={{ display: "flex", flexDirection: "row" }}>
             <TextField
               name="question"

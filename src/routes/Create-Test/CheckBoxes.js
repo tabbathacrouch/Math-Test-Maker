@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
 import EditIcon from "@material-ui/icons/Edit";
+import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
 
 // Find a way to dynamically add answer choices.
 
@@ -25,7 +26,7 @@ const signInValidationSchema = yup.object({
   ac4: yup.string().required("required"),
 });
 
-export const CheckBoxes = () => {
+export const CheckBoxes = ({ testInfo, setTestInfo, index }) => {
   const formik = useFormik({
     initialValues: {
       question: "",
@@ -37,20 +38,45 @@ export const CheckBoxes = () => {
     },
     validationSchema: signInValidationSchema,
     onSubmit: (values) => {
-      console.log(values);
-    },
-    onChange: (values) => {
-      console.log(values);
+      let newArray = [...testInfo.questions];
+      newArray[index] = {
+        ...newArray[index],
+        questionInfo: values,
+      };
+      setTestInfo({
+        ...testInfo,
+        questions: newArray,
+      });
     },
   });
   const classes = formStyles();
+  const handleChangeQuestionTypeButton = () => {
+    let newArray = [...testInfo.questions];
+    newArray[index] = {
+      ...newArray[index],
+      displayQuestionTypeSelector: true,
+      questionType: "",
+      questionInfo: "",
+    };
+    setTestInfo({
+      ...testInfo,
+      questions: newArray,
+    });
+  };
+
   return (
     <div>
       <Container maxWidth="md">
         <Card className={classes.card}>
-          <Typography component="h1" variant="h5">
-            Check Boxes (Multiple Response)
-          </Typography>
+          <div className={classes.textAndButton}>
+            <Typography component="h1" variant="h5">
+              Check Boxes (Multiple Response)
+            </Typography>
+            <Button onClick={handleChangeQuestionTypeButton}>
+              Change question type
+              <ChangeHistoryIcon className={classes.icon} />
+            </Button>
+          </div>
           <div style={{ display: "flex", flexDirection: "row" }}>
             <TextField
               name="question"

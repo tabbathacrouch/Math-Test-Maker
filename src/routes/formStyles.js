@@ -54,7 +54,23 @@ export const formStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "flex-end",
   },
+  testTitle: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    fontSize: 24,
+  },
   button: {
     paddingBottom: 0,
+    color: "black",
+  },
+  addQuestion: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  textAndButton: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 }));

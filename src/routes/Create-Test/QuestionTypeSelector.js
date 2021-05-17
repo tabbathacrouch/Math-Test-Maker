@@ -10,11 +10,22 @@ import {
 } from "@material-ui/core";
 import { formStyles } from "../formStyles";
 
-export const NewQuestion = ({ setQuestionType }) => {
-  const handleChange = (e) => {
-    setQuestionType(e.target.value);
+export const QuestionTypeSelector = ({ testInfo, setTestInfo, index }) => {
+  const handleChange = (event) => {
+    let newArray = [...testInfo.questions];
+    newArray[index] = {
+      ...newArray[index],
+      displayQuestionTypeSelector: false,
+      questionType: event.target.value,
+    };
+    setTestInfo({
+      ...testInfo,
+      questions: newArray,
+    });
   };
+
   const classes = formStyles();
+
   return (
     <div>
       <Container maxWidth="md">
@@ -36,7 +47,7 @@ export const NewQuestion = ({ setQuestionType }) => {
               <FormControlLabel
                 value="cb"
                 control={<Radio />}
-                label="Check Boxes (Multiple Reponse)"
+                label="Check Boxes (Multiple Response)"
               />
               <FormControlLabel
                 value="sa"

@@ -14,10 +14,12 @@ import {
 } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
 import EditIcon from "@material-ui/icons/Edit";
+import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
 
 // need 'required' validation for the selection of a radio button
 // add validation to check for duplicate answer
 // Find a way to dynamically add answer choices.
+// Needs to handle 'edit button' properly.
 
 const signInValidationSchema = yup.object({
   question: yup.string().required("required"),
@@ -27,7 +29,7 @@ const signInValidationSchema = yup.object({
   ac4: yup.string().required("required"),
 });
 
-export const MultipleChoice = () => {
+export const MultipleChoice = ({ testInfo, setTestInfo, index }) => {
   const formik = useFormik({
     initialValues: {
       question: "",
@@ -39,21 +41,46 @@ export const MultipleChoice = () => {
     },
     validationSchema: signInValidationSchema,
     onSubmit: (values) => {
-      console.log(values);
-    },
-    onChange: (values) => {
-      console.log(values);
+      let newArray = [...testInfo.questions];
+      newArray[index] = {
+        ...newArray[index],
+        questionInfo: values,
+      };
+      setTestInfo({
+        ...testInfo,
+        questions: newArray,
+      });
     },
   });
   const classes = formStyles();
+  const handleChangeQuestionTypeButton = () => {
+    let newArray = [...testInfo.questions];
+    newArray[index] = {
+      ...newArray[index],
+      displayQuestionTypeSelector: true,
+      questionType: "",
+      questionInfo: "",
+    };
+    setTestInfo({
+      ...testInfo,
+      questions: newArray,
+    });
+  };
+
   return (
     <div>
       <Container maxWidth="md">
         <Card className={classes.card}>
-          <Typography component="h1" variant="h5">
-            Multiple Choice
-          </Typography>
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          <div className={classes.textAndButton}>
+            <Typography component="h1" variant="h5">
+              Multiple Choice
+            </Typography>
+            <Button onClick={handleChangeQuestionTypeButton}>
+              Change question type
+              <ChangeHistoryIcon className={classes.icon} />
+            </Button>
+          </div>
+          <div className={classes.textAndButton}>
             <TextField
               name="question"
               label="Question"

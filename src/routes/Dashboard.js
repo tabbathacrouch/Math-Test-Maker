@@ -1,7 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import {
-  Button,
   Card,
   CardContent,
   Container,
@@ -34,9 +34,9 @@ export const Dashboard = () => {
         <CardContent className={classes.main}>
           <Typography className={classes.tableTitle}>
             Create a New Test{" "}
-            <Button className={classes.button}>
+            <Link className={classes.button} to="/create-test">
               <AddCircleIcon className={classes.icon} />
-            </Button>
+            </Link>
           </Typography>
           <Typography className={classes.tableLabel}>
             [Registered Name]'s Test

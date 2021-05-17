@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import {
   Container,
@@ -16,10 +16,7 @@ const signInValidationSchema = yup.object({
   title: yup.string().required("required"),
 });
 
-export const TestTitle = ({
-  displayQuestionTypeSelector,
-  setDisplayQuestionTypeSelector,
-}) => {
+export const TestTitle = ({ testInfo, setTestInfo }) => {
   // update onSubmit function to handle edit button
   // add validation to not allow two tests with the same name
 
@@ -28,12 +25,21 @@ export const TestTitle = ({
       title: "",
     },
     validationSchema: signInValidationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-      setDisplayQuestionTypeSelector(!displayQuestionTypeSelector);
+    onSubmit: () => {
+      setTestInfo({ ...testInfo, testName: formik.values.title });
+      setDisplayTitle(!displayTitle);
     },
   });
+
+  const handleEditButton = () => {
+    formik.resetForm();
+    setDisplayTitle(!displayTitle);
+  };
+
   const classes = formStyles();
+
+  const [displayTitle, setDisplayTitle] = useState(false);
+
   return (
     <div>
       <Container maxWidth="md">
@@ -41,26 +47,31 @@ export const TestTitle = ({
           <Typography component="h1" variant="h5">
             Test Title
           </Typography>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <TextField
-              name="title"
-              label="Title"
-              value={formik.values.title}
-              onChange={formik.handleChange}
-              error={formik.touched.title && Boolean(formik.errors.title)}
-              helperText={formik.touched.title && formik.errors.title}
-              className={classes.fields}
-            />
-            <Button onClick={formik.handleSubmit} className={classes.button}>
-              <SaveIcon className={classes.icon} />
-            </Button>
-            <Button
-              onClick={() => formik.resetForm()}
-              className={classes.button}
-            >
-              <EditIcon className={classes.icon} />
-            </Button>
-          </div>
+          {!displayTitle ? (
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <TextField
+                name="title"
+                label="Title"
+                value={formik.values.title}
+                onChange={formik.handleChange}
+                error={formik.touched.title && Boolean(formik.errors.title)}
+                helperText={formik.touched.title && formik.errors.title}
+                className={classes.fields}
+              />
+              <Button onClick={formik.handleSubmit} className={classes.button}>
+                <SaveIcon className={classes.icon} />
+              </Button>
+            </div>
+          ) : (
+            <div className={classes.testTitle}>
+              {formik.values.title}{" "}
+              <div style={{ textAlign: "right" }}>
+                <Button onClick={handleEditButton} className={classes.button}>
+                  <EditIcon className={classes.icon} />
+                </Button>
+              </div>
+            </div>
+          )}
         </Card>
       </Container>
     </div>

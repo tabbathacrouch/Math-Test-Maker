@@ -17,7 +17,10 @@ const signInValidationSchema = yup.object({
 });
 
 export const TestTitle = ({ testInfo, setTestInfo }) => {
-  // update onSubmit function to handle edit button
+  const classes = formStyles();
+
+  const [displayTitle, setDisplayTitle] = useState(false);
+  // update onSubmit function to handle edit button?
   // add validation to not allow two tests with the same name
 
   const formik = useFormik({
@@ -35,10 +38,6 @@ export const TestTitle = ({ testInfo, setTestInfo }) => {
     formik.resetForm();
     setDisplayTitle(!displayTitle);
   };
-
-  const classes = formStyles();
-
-  const [displayTitle, setDisplayTitle] = useState(false);
 
   return (
     <div>

@@ -70,9 +70,15 @@ export const CreateTest = () => {
               )}
             </div>
           ))}
-      <Button onClick={handleSaveTestButton} className={classes.button}>
-        Save Test
-      </Button>
+      <div style={{ textAlign: "center" }}>
+        <Button
+          onClick={handleSaveTestButton}
+          className={classes.button}
+          variant="outlined"
+        >
+          Save Test
+        </Button>
+      </div>
     </div>
   );
 };

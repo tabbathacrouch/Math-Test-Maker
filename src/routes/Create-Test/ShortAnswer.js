@@ -8,7 +8,6 @@ import {
   Button,
 } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
-import EditIcon from "@material-ui/icons/Edit";
 import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
 import { formStyles } from "../formStyles";
 import * as yup from "yup";
@@ -76,12 +75,6 @@ export const ShortAnswer = ({ testInfo, setTestInfo, index }) => {
             />
             <Button onClick={formik.handleSubmit} className={classes.button}>
               <SaveIcon className={classes.icon} />
-            </Button>
-            <Button
-              onClick={() => formik.resetForm()}
-              className={classes.button}
-            >
-              <EditIcon className={classes.icon} />
             </Button>
           </div>
           <div>

@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core";
 export const formStyles = makeStyles((theme) => ({
   root: {
     fontSize: 18,
+    fontFamily: "sans-serif",
   },
   card: {
     padding: theme.spacing(4),
@@ -63,6 +64,8 @@ export const formStyles = makeStyles((theme) => ({
   button: {
     paddingBottom: 0,
     color: "black",
+    maxWidth: 400,
+    justifyContent: "center",
   },
   addQuestion: {
     display: "flex",
@@ -72,5 +75,18 @@ export const formStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    fontSize: 20,
+    alignItems: "center",
+    paddingLeft: theme.spacing(1),
+  },
+  acs: {
+    fontSize: 20,
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(1),
+  },
+  checkIcon: {
+    color: "green",
+    paddingLeft: theme.spacing(1),
   },
 }));

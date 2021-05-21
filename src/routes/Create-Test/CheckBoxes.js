@@ -13,7 +13,6 @@ import {
   FormControlLabel,
 } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
-import EditIcon from "@material-ui/icons/Edit";
 import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
 
 // Find a way to dynamically add answer choices.
@@ -89,12 +88,6 @@ export const CheckBoxes = ({ testInfo, setTestInfo, index }) => {
             />
             <Button onClick={formik.handleSubmit} className={classes.button}>
               <SaveIcon className={classes.icon} />
-            </Button>
-            <Button
-              onClick={() => formik.resetForm()}
-              className={classes.button}
-            >
-              <EditIcon className={classes.icon} />
             </Button>
           </div>
           <div>

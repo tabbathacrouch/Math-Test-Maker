@@ -20,7 +20,6 @@ const signInValidationSchema = yup.object({
     .required("required"),
 });
 
-
 export const SignIn = () => {
   const formik = useFormik({
     initialValues: {
@@ -28,15 +27,15 @@ export const SignIn = () => {
       password: "",
     },
     validationSchema: signInValidationSchema,
-    onSubmit: values => {
+    onSubmit: (values) => {
       // update next line to check login credentials against database
       console.log(values);
     },
   });
   const classes = formStyles();
   return (
-    <div className={classes.main}>
-      <Container maxWidth="sm">
+    <div className={classes.root}>
+      <Container maxWidth="sm" className={classes.main}>
         <Card className={classes.card}>
           <Typography component="h1" variant="h5" align="center">
             Sign in

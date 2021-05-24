@@ -38,7 +38,7 @@ export const Register = () => {
       confirmPassword: "",
     },
     validationSchema: registerValidationSchema,
-    onSubmit: values => {
+    onSubmit: (values) => {
       // update next line to add values to database
       console.log(values);
     },

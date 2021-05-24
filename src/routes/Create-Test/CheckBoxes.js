@@ -13,9 +13,14 @@ import {
   FormControlLabel,
 } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
+import EditIcon from "@material-ui/icons/Edit";
+import CheckIcon from "@material-ui/icons/Check";
 import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
 
-// Find a way to dynamically add answer choices.
+// Add validation to check for duplicate answer choices.
+// Fix issue in showing the correct answer (green check marks) after clicking the edit button.
+// Find a way to dynamically add answer choices?
+// Update handleEditButton function to show checked boxes?
 
 const signInValidationSchema = yup.object({
   question: yup.string().required("required"),
@@ -26,6 +31,12 @@ const signInValidationSchema = yup.object({
 });
 
 export const CheckBoxes = ({ testInfo, setTestInfo, index }) => {
+  const classes = formStyles();
+  const [state, setState] = useState({
+    displayQuestion: false,
+    displayACs: false,
+  });
+
   const formik = useFormik({
     initialValues: {
       question: "",
@@ -46,9 +57,13 @@ export const CheckBoxes = ({ testInfo, setTestInfo, index }) => {
         ...testInfo,
         questions: newArray,
       });
+      setState({
+        displayQuestion: !state.displayQuestion,
+        displayACs: !state.displayACs,
+      });
     },
   });
-  const classes = formStyles();
+
   const handleChangeQuestionTypeButton = () => {
     let newArray = [...testInfo.questions];
     newArray[index] = {
@@ -60,6 +75,13 @@ export const CheckBoxes = ({ testInfo, setTestInfo, index }) => {
     setTestInfo({
       ...testInfo,
       questions: newArray,
+    });
+  };
+
+  const handleEditButton = () => {
+    setState({
+      displayQuestion: !state.displayQuestion,
+      displayACs: !state.displayACs,
     });
   };
 
@@ -76,102 +98,152 @@ export const CheckBoxes = ({ testInfo, setTestInfo, index }) => {
               <ChangeHistoryIcon className={classes.icon} />
             </Button>
           </div>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <TextField
-              name="question"
-              label="Question"
-              value={formik.values.question}
-              onChange={formik.handleChange}
-              error={formik.touched.question && Boolean(formik.errors.question)}
-              helperText={formik.touched.question && formik.errors.question}
-              className={classes.fields}
-            />
-            <Button onClick={formik.handleSubmit} className={classes.button}>
-              <SaveIcon className={classes.icon} />
-            </Button>
-          </div>
+          {!state.displayQuestion ? (
+            <div className={classes.textAndButton}>
+              <TextField
+                name="question"
+                label="Question"
+                value={formik.values.question}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.question && Boolean(formik.errors.question)
+                }
+                helperText={formik.touched.question && formik.errors.question}
+                className={classes.fields}
+              />
+              <Button onClick={formik.handleSubmit} className={classes.button}>
+                <SaveIcon className={classes.icon} />
+              </Button>
+            </div>
+          ) : (
+            <div className={classes.textAndButton}>
+              {formik.values.question}{" "}
+              <div style={{ textAlign: "right" }}>
+                <Button onClick={handleEditButton} className={classes.button}>
+                  <EditIcon className={classes.icon} />
+                </Button>
+              </div>
+            </div>
+          )}
+
           <div>
             <FormGroup>
-              <FormControlLabel
-                value={formik.values.ac1}
-                control={
-                  <Checkbox
-                    onChange={formik.handleChange}
-                    name="correctAnswer"
-                  />
-                }
-                label={
-                  <TextField
-                    name="ac1"
-                    label="Answer Choice 1"
-                    value={formik.values.ac1}
-                    onChange={formik.handleChange}
-                    error={formik.touched.ac1 && Boolean(formik.errors.ac1)}
-                    helperText={formik.touched.ac1 && formik.errors.ac1}
-                    className={classes.fields}
-                  />
-                }
-              />
-              <FormControlLabel
-                value={formik.values.ac2}
-                control={
-                  <Checkbox
-                    onChange={formik.handleChange}
-                    name="correctAnswer"
-                  />
-                }
-                label={
-                  <TextField
-                    name="ac2"
-                    label="Answer Choice 2"
-                    value={formik.values.ac2}
-                    onChange={formik.handleChange}
-                    error={formik.touched.ac2 && Boolean(formik.errors.ac2)}
-                    helperText={formik.touched.ac2 && formik.errors.ac2}
-                    className={classes.fields}
-                  />
-                }
-              />
-              <FormControlLabel
-                value={formik.values.ac3}
-                control={
-                  <Checkbox
-                    onChange={formik.handleChange}
-                    name="correctAnswer"
-                  />
-                }
-                label={
-                  <TextField
-                    name="ac3"
-                    label="Answer Choice 3"
-                    value={formik.values.ac3}
-                    onChange={formik.handleChange}
-                    error={formik.touched.ac3 && Boolean(formik.errors.ac3)}
-                    helperText={formik.touched.ac3 && formik.errors.ac3}
-                    className={classes.fields}
-                  />
-                }
-              />
-              <FormControlLabel
-                value={formik.values.ac4}
-                control={
-                  <Checkbox
-                    onChange={formik.handleChange}
-                    name="correctAnswer"
-                  />
-                }
-                label={
-                  <TextField
-                    name="ac4"
-                    label="Answer Choice 4"
-                    value={formik.values.ac4}
-                    onChange={formik.handleChange}
-                    error={formik.touched.ac4 && Boolean(formik.errors.ac4)}
-                    helperText={formik.touched.ac4 && formik.errors.ac4}
-                    className={classes.fields}
-                  />
-                }
-              />
+              {!state.displayACs ? (
+                <FormControlLabel
+                  value={formik.values.ac1}
+                  control={
+                    <Checkbox
+                      onChange={formik.handleChange}
+                      name="correctAnswer"
+                    />
+                  }
+                  label={
+                    <TextField
+                      name="ac1"
+                      label="Answer Choice 1"
+                      value={formik.values.ac1}
+                      onChange={formik.handleChange}
+                      error={formik.touched.ac1 && Boolean(formik.errors.ac1)}
+                      helperText={formik.touched.ac1 && formik.errors.ac1}
+                      className={classes.fields}
+                    />
+                  }
+                />
+              ) : (
+                <div className={classes.acs}>
+                  {formik.values.ac1}
+                  {formik.values.correctAnswer.includes(formik.values.ac1) ? (
+                    <CheckIcon className={classes.checkIcon} />
+                  ) : null}
+                </div>
+              )}
+              {!state.displayACs ? (
+                <FormControlLabel
+                  value={formik.values.ac2}
+                  control={
+                    <Checkbox
+                      onChange={formik.handleChange}
+                      name="correctAnswer"
+                    />
+                  }
+                  label={
+                    <TextField
+                      name="ac2"
+                      label="Answer Choice 2"
+                      value={formik.values.ac2}
+                      onChange={formik.handleChange}
+                      error={formik.touched.ac2 && Boolean(formik.errors.ac2)}
+                      helperText={formik.touched.ac2 && formik.errors.ac2}
+                      className={classes.fields}
+                    />
+                  }
+                />
+              ) : (
+                <div className={classes.acs}>
+                  {formik.values.ac2}
+                  {formik.values.correctAnswer.includes(formik.values.ac2) ? (
+                    <CheckIcon className={classes.checkIcon} />
+                  ) : null}
+                </div>
+              )}
+              {!state.displayACs ? (
+                <FormControlLabel
+                  value={formik.values.ac3}
+                  control={
+                    <Checkbox
+                      onChange={formik.handleChange}
+                      name="correctAnswer"
+                    />
+                  }
+                  label={
+                    <TextField
+                      name="ac3"
+                      label="Answer Choice 3"
+                      value={formik.values.ac3}
+                      onChange={formik.handleChange}
+                      error={formik.touched.ac3 && Boolean(formik.errors.ac3)}
+                      helperText={formik.touched.ac3 && formik.errors.ac3}
+                      className={classes.fields}
+                    />
+                  }
+                />
+              ) : (
+                <div className={classes.acs}>
+                  {formik.values.ac3}
+                  {formik.values.correctAnswer.includes(formik.values.ac3) ? (
+                    <CheckIcon className={classes.checkIcon} />
+                  ) : null}
+                </div>
+              )}
+              {!state.displayACs ? (
+                <FormControlLabel
+                  value={formik.values.ac4}
+                  control={
+                    <Checkbox
+                      onChange={formik.handleChange}
+                      name="correctAnswer"
+                    />
+                  }
+                  label={
+                    <TextField
+                      name="ac4"
+                      label="Answer Choice 4"
+                      value={formik.values.ac4}
+                      onChange={formik.handleChange}
+                      error={formik.touched.ac4 && Boolean(formik.errors.ac4)}
+                      helperText={formik.touched.ac4 && formik.errors.ac4}
+                      className={classes.fields}
+                    />
+                  }
+                />
+              ) : (
+                <div className={classes.acs}>
+                  {formik.values.ac4}
+                  {formik.values.correctAnswer.includes(formik.values.ac4) ? (
+                    <CheckIcon className={classes.checkIcon} />
+                  ) : null}
+                </div>
+              )}
             </FormGroup>
           </div>
         </Card>

@@ -17,9 +17,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import CheckIcon from "@material-ui/icons/Check";
 import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
 
-// need 'required' validation for the selection of a radio button
-// add validation to check for duplicate answer
-// update handleEditButton function to not just reset values?
+// Add 'required' validation for the selection of a radio button.
+// Add validation to check for duplicate answer choices.
 
 const signInValidationSchema = yup.object({
   question: yup.string().required("required"),
@@ -78,7 +77,6 @@ export const MultipleChoice = ({ testInfo, setTestInfo, index }) => {
   };
 
   const handleEditButton = () => {
-    formik.resetForm();
     setState({
       displayQuestion: !state.displayQuestion,
       displayACs: !state.displayACs,

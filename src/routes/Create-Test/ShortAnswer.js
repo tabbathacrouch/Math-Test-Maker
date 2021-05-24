@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import {
   Container,
@@ -8,6 +8,7 @@ import {
   Button,
 } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
+import EditIcon from "@material-ui/icons/Edit";
 import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
 import { formStyles } from "../formStyles";
 import * as yup from "yup";
@@ -17,6 +18,12 @@ const signInValidationSchema = yup.object({
 });
 
 export const ShortAnswer = ({ testInfo, setTestInfo, index }) => {
+  const classes = formStyles();
+  const [state, setState] = useState({
+    displayQuestion: false,
+    displayACs: false,
+  });
+
   const formik = useFormik({
     initialValues: {
       question: "",
@@ -33,9 +40,13 @@ export const ShortAnswer = ({ testInfo, setTestInfo, index }) => {
         ...testInfo,
         questions: newArray,
       });
+      setState({
+        displayQuestion: !state.displayQuestion,
+        displayACs: !state.displayACs,
+      });
     },
   });
-  const classes = formStyles();
+
   const handleChangeQuestionTypeButton = () => {
     let newArray = [...testInfo.questions];
     newArray[index] = {
@@ -47,6 +58,13 @@ export const ShortAnswer = ({ testInfo, setTestInfo, index }) => {
     setTestInfo({
       ...testInfo,
       questions: newArray,
+    });
+  };
+
+  const handleEditButton = () => {
+    setState({
+      displayQuestion: !state.displayQuestion,
+      displayACs: !state.displayACs,
     });
   };
 
@@ -63,39 +81,56 @@ export const ShortAnswer = ({ testInfo, setTestInfo, index }) => {
               <ChangeHistoryIcon className={classes.icon} />
             </Button>
           </div>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <TextField
-              name="question"
-              label="Question"
-              value={formik.values.question}
-              onChange={formik.handleChange}
-              error={formik.touched.question && Boolean(formik.errors.question)}
-              helperText={formik.touched.question && formik.errors.question}
-              className={classes.fields}
-            />
-            <Button onClick={formik.handleSubmit} className={classes.button}>
-              <SaveIcon className={classes.icon} />
-            </Button>
-          </div>
-          <div>
-            <TextField
-              name="sampleAnswer"
-              label="Sample Answer"
-              value={formik.values.sampleAnswer}
-              onChange={formik.handleChange}
-              error={
-                formik.touched.sampleAnswer &&
-                Boolean(formik.errors.sampleAnswer)
-              }
-              helperText={
-                formik.touched.sampleAnswer && formik.errors.sampleAnswer
-              }
-              className={classes.fields}
-              variant="outlined"
-              multiline
-              rows={8}
-            />
-          </div>
+          {!state.displayQuestion ? (
+            <div className={classes.textAndButton}>
+              <TextField
+                name="question"
+                label="Question"
+                value={formik.values.question}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.question && Boolean(formik.errors.question)
+                }
+                helperText={formik.touched.question && formik.errors.question}
+                className={classes.fields}
+              />
+              <Button onClick={formik.handleSubmit} className={classes.button}>
+                <SaveIcon className={classes.icon} />
+              </Button>
+            </div>
+          ) : (
+            <div className={classes.textAndButton}>
+              {formik.values.question}{" "}
+              <div style={{ textAlign: "right" }}>
+                <Button onClick={handleEditButton} className={classes.button}>
+                  <EditIcon className={classes.icon} />
+                </Button>
+              </div>
+            </div>
+          )}
+          {!state.displayACs ? (
+            <div>
+              <TextField
+                name="sampleAnswer"
+                label="Sample Answer"
+                value={formik.values.sampleAnswer}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.sampleAnswer &&
+                  Boolean(formik.errors.sampleAnswer)
+                }
+                helperText={
+                  formik.touched.sampleAnswer && formik.errors.sampleAnswer
+                }
+                className={classes.fields}
+                variant="outlined"
+                multiline
+                rows={8}
+              />
+            </div>
+          ) : (
+            <div className={classes.acs}>{formik.values.sampleAnswer}</div>
+          )}
         </Card>
       </Container>
     </div>
